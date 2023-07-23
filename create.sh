@@ -1,14 +1,17 @@
 #!/bin/bash
 
-# Author : PERRON D'ARC Charlie
+# Author : CPdA-Omi
 # Creation Date : december 6 2021
-# Last update : 14/10/2022
+# Last update : 07/23/2023
+
+author="CPdA-Omi"
+genMsg="Fichier généré grâce à create.sh ($author)"
 
 fichiersC() {
 	if [ "$mkf" = "1" ]; then
 		if [ "$tree" = "1" ]; then
 			echo '#Fichier makefile créé par Mme Carine Simon avec un "C"
-#Fichier généré grâce à create.sh (~caperronda/bin/./create.sh)
+#'"$genMsg"'
 
 #CC : le compilateur à utiliser
 CC=gcc
@@ -23,7 +26,7 @@ SRC=$(wildcard src/*.c)
 OBJ=$(patsubst src/%.c,obj/%.o,$(SRC))
 
 
-#edition des liens : génération de l'\''exécutable à partir des .o 
+#édition des liens : génération de l'\''exécutable à partir des .o 
 bin/exe: $(OBJ)
 	$(CC) $(OBJ) -o $@
 
@@ -36,8 +39,8 @@ clean:
 	rm obj/*.o bin/exe' > $way\/makefile
 		
 		else
-			echo "#Contenu créé par M. Hasbani
-#Fichier généré grâce à create.sh (~caperronda/bin/./create.sh)
+			echo "#Fichier makefile créé par M. Hasbani
+#$genMsg
 
 exe:	$fic.o test$fic.o
 		gcc $fic.o test$fic.o -o exe
@@ -55,7 +58,7 @@ clean:
 		if [ $? -ne 0 ]; then
 			exit 1
 		fi
-		echo "Création du fichier makefile..."
+		echo "Création du fichier makefile"
 	fi
 
 #===============================.makefile ^=========.tree v==========
@@ -69,15 +72,15 @@ clean:
 		way="$way/src"
 
 		if [ "$file" == "1" ]; then
-			echo "Création des l'arborescence dans $(pwd)/$fic/..."
+			echo "Création des l'arborescence dans $(pwd)/$fic/"
 		else
-			echo "Création des l'arborescence dans $(pwd)/..."
+			echo "Création des l'arborescence dans $(pwd)/"
 		fi
 	fi
 
 #===================================.tree ^=========.h v=============
 
-	echo "//Ensemble de fichiers générés grâce à create.sh (~caperronda/bin/./create.sh)
+	echo "// $genMsg
 #ifndef $(echo "$fic.h" | tr a-z A-Z | tr . ' ' | tr ' ' _)
 #define $(echo "$fic.h" | tr a-z A-Z | tr . ' ' | tr ' ' _)
 
@@ -89,7 +92,7 @@ clean:
 	fi
 
 #======================================.h ^=========.c v=============
-	echo "//Ensemble de fichiers générés grâce à create.sh (~caperronda/bin/./create.sh)
+	echo "// $genMsg
 // #include <stdio.h> // Seulement si communication avec le terminal
 // #include <stdlib.h> // Seulement si utilisation des fonctions suivantes : exit, malloc, free, system ou rand
 #include \"$fic.h\"
@@ -102,7 +105,7 @@ int fct1 (void){
 	fi
 
 #======================================.c ^=========test.c v=============
-	echo "//Ensemble de fichiers générés grâce à create.sh (~caperronda/bin/./create.sh)
+	echo "// $genMsg
 #include <stdio.h> // Seulement si communication avec le terminal
 #include \"$fic.h\"
 
@@ -120,7 +123,7 @@ int main (void){
 		exit 1
 	fi
 
-	echo "Création des fichiers\"$fic.h\", \"$fic.c\" et \"test$fic.c\"..."
+	echo "Création des fichiers\"$fic.h\", \"$fic.c\" et \"test$fic.c\""
 
 #==================================================chmod v===============
 
@@ -139,10 +142,10 @@ int main (void){
 	if [ "$open" = "1" ]; then
 		if [ -z $openCmd ]; then
 			subl $way\/$fic.h $way\/$fic.c $way\/test$fic.c
-			echo "Ouverture des fichiers \"$fic.h\", \"$fic.c\" et \"test$fic.c\" sous Sublime Text..."
+			echo "Ouverture des fichiers \"$fic.h\", \"$fic.c\" et \"test$fic.c\" sous Sublime Text"
 		else
 			$openCmd $way\/$fic.h $way\/$fic.c $way\/test$fic.c
-			echo "Ouverture des fichiers \"$fic.h\", \"$fic.c\" et \"test$fic.c\"..."
+			echo "Ouverture des fichiers \"$fic.h\", \"$fic.c\" et \"test$fic.c\""
 		fi
 	fi
 	exit 0
@@ -169,7 +172,7 @@ creation() {
 	elif [ "$sh" = "1" ]; then
 		fic="$fic.sh"
 		echo "#!/bin/bash
-#Fichier généré grâce à create.sh (~caperronda/bin/./create.sh)
+#$genMsg
 
 echo 'Hello, World!'" > $way\/$fic
 		if [ $? -ne 0 ]; then
@@ -180,7 +183,7 @@ echo 'Hello, World!'" > $way\/$fic
 
 	elif [ "$py" = "1" ]; then
 		fic="$fic.py"
-		echo "#Fichier généré grâce à create.sh (~caperronda/bin/./create.sh)
+		echo "#$genMsg
 
 if __name__ == '__main__':
 
@@ -192,23 +195,23 @@ if __name__ == '__main__':
 #======================================-py ^=========================
 
 	else
-		echo -e "#Fichier généré grâce à create.sh (~caperronda/bin/./create.sh)\n#Aucune extension de fichier valide saisie.\n" > $way\/$fic
+		echo -e "// $genMsg\n// Aucune extension de fichier valide saisie.\n" > $way\/$fic
 		if [ $? -ne 0 ]; then
 			exit 1
 		fi
 	fi
 	chmod $chmod $way\/$fic
-	echo "Création du fichier \"$fic\"..."
+	echo "Création du fichier \"$fic\""
 
 #===================================================-o v=============
 
 	if [ "$open" = "1" ]; then
 		if [ -z $openCmd ]; then
 			subl $way\/$fic
-			echo "Ouverture du fichier \"$fic\" sous Sublime Text..."
+			echo "Ouverture du fichier \"$fic\" sous Sublime Text"
 		else
 			$openCmd $way\/$fic
-			echo "Ouverture du fichier \"$fic\"..."
+			echo "Ouverture du fichier \"$fic\""
 		fi
 	fi
 }
@@ -280,8 +283,8 @@ guide() {
   |\e[0m	  ./$(basename $0) 700 nounours -d -c -t -mkf										\e[1m\e[33m|
   |																|
   |																|
-  |                                                create.sh V1.4.3 (2021->2022)                                                |
-  |						Créé par Charlie PdA aka Omicro 2A-G7						\e[1m\e[33m|
+  |                                                create.sh V1.4.4 (2021->2023)                                                |
+  |							Créé par CPdA-Omi							\e[1m\e[33m|
   \e[0m\e[1m#\e[33m=============================================================================================================================\e[0m\e[1m#\e[0m"
 }
 
