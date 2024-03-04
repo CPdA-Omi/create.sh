@@ -2,7 +2,7 @@
 
 # Author : CPdA-Omi
 # Creation Date : december 6 2021
-# Last update : 07/23/2023
+# Last update : 03/04/2024 (MM/DD/YYYY)
 
 author="CPdA-Omi"
 genMsg="Fichier généré grâce à create.sh ($author)"
@@ -61,7 +61,7 @@ clean:
 		echo "Création du fichier makefile"
 	fi
 
-#===============================.makefile ^=========.tree v==========
+#===============================.makefile ^==========tree v==========
 
 	if [ "$tree" = "1" ]; then
 		$(mkdir -p $way\/{src,obj,bin})
@@ -78,7 +78,7 @@ clean:
 		fi
 	fi
 
-#===================================.tree ^=========.h v=============
+#====================================tree ^=========.h v=============
 
 	echo "// $genMsg
 #ifndef $(echo "$fic.h" | tr a-z A-Z | tr . ' ' | tr ' ' _)
@@ -151,6 +151,8 @@ int main (void){
 	exit 0
 } #=========================================================================fichiersC
 
+
+
 creation() {
 	if [ "$file" = "1" ]; then
 		mkdir $fic
@@ -192,7 +194,32 @@ if __name__ == '__main__':
 			exit 1
 		fi
 
-#======================================-py ^=========================
+#======================================-py ^=======-html v===========
+
+	elif [ "$html" = "1" ]; then
+		fic="$fic.html"
+		echo "<!-- $genMsg -->
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset=\"UTF-8\">
+		<title>$(echo $fic | cut -d '.' -f 1)</title>
+	</head>
+	<body>
+		<header>
+			<h1>Hello, World!</h1>
+		</header>
+		<main>
+		</main>
+		<footer>
+		</footer>
+	</body>
+</html>" > $way\/$fic
+		if [ $? -ne 0 ]; then
+			exit 1
+		fi
+
+#======================================-html ^=======================
 
 	else
 		echo -e "// $genMsg\n// Aucune extension de fichier valide saisie.\n" > $way\/$fic
@@ -243,9 +270,10 @@ guide() {
   |																|
   |\e[0m	  Par défaut un fichier n'a pas de format mais trois sont pour le moment pris en charges :				\e[1m\e[33m|
   |																|
-  |\e[0m		  \e[93m-py\e[0m : créer le fichier en format python (avec un main python) ;						\e[1m\e[33m|
-  |\e[0m		  \e[96m-sh\e[0m : créer le fichier en format shell (avec les commandes d'exécution en début de fichier) ;			\e[1m\e[33m|
-  |\e[0m		  \e[31m-c\e[0m  : créer tous les fichiers nécessaires au fonctionnement d'un programme c :				\e[1m\e[33m|
+  |\e[0m		  \e[94m-html\e[0m  : créer le fichier en format html (avec toutes les balises conseillées) ;				\e[1m\e[33m|
+  |\e[0m		  \e[93m-py\e[0m    : créer le fichier en format python (avec un main python) ;						\e[1m\e[33m|
+  |\e[0m		  \e[96m-sh\e[0m    : créer le fichier en format shell (avec les commandes d'exécution en début de fichier) ;		\e[1m\e[33m|
+  |\e[0m		  \e[31m-c\e[0m     : créer tous les fichiers nécessaires au fonctionnement d'un programme c :				\e[1m\e[33m|
   |\e[0m				  un fichier .c, un fichier .h et un fichier test.c avec tout ce qui est nécessaire		\e[1m\e[33m|
   |\e[0m				  à une bonne utilisation déjà prérentré dans ces fichiers.					\e[1m\e[33m|
   |																|
@@ -277,13 +305,14 @@ guide() {
   |																|
   |\e[0m	  \e[4m\e[33mExemples :\e[0m														\e[1m\e[33m|
   |																|
+  |\e[0m	  ./$(basename $0) chat -d -html												\e[1m\e[33m|
   |\e[0m	  ./$(basename $0) titi -c -mkf -d												\e[1m\e[33m|
   |\e[0m	  ./$(basename $0) 744 tata -o -py												\e[1m\e[33m|
   |\e[0m	  ./$(basename $0) lapin -o gedit -d -sh											\e[1m\e[33m|
   |\e[0m	  ./$(basename $0) 700 nounours -d -c -t -mkf										\e[1m\e[33m|
   |																|
   |																|
-  |                                                create.sh V1.4.4 (2021->2023)                                                |
+  |                                                create.sh V1.5.0 (2021->2024)                                                |
   |							Créé par CPdA-Omi							\e[1m\e[33m|
   \e[0m\e[1m#\e[33m=============================================================================================================================\e[0m\e[1m#\e[0m"
 }
@@ -297,58 +326,74 @@ fi
 
 if echo $1 | egrep -q "[0-7]{3}" ; then
 	chmod=$1; shift
-elif [ "$1" = "-guide" -o "$1" = "-h" ]; then
+elif [ "$1" = "-guide" -o "$1" = "-h" -o "$1" = "--help" ]; then
 	guide
 	exit 0
 else
 	chmod="755"
 fi
 
-cpt=0; way="."; fic=$1; shift
+languageCpt=0; way="."; fic=$1; shift
 
 
 while [ $# -ne 0 ]; do
 	case $1 in
+		"-html")
+			if [ -e "$fic.html" ]; then
+				echo "Le fichier \"$fic.html\" existe déjà dans le répertoire courant"
+				exit 1
+			else
+				if [ $languageCpt -eq 0 ]; then
+					html=1
+					languageCpt=1
+					shift
+				else
+					echo "Erreur, plusieurs formats de fichier saisit (./$(basename $0) -h)" >&2
+					exit 1
+				fi
+			fi
+			;;
+
+		"-py")
+			if [ -e "$fic.py" ]; then
+				echo "Le fichier \"$fic.py\" existe déjà dans le répertoire courant"
+				exit 1
+			else
+				if [ $languageCpt -eq 0 ]; then
+					py=1
+					languageCpt=1
+					shift
+				else
+					echo "Erreur, plusieurs formats de fichier saisit (./$(basename $0) -h)" >&2
+					exit 1
+				fi
+			fi
+			;;
+		
 		"-sh")
 			if [ -e "$fic.sh" ]; then
 				echo "Le fichier \"$fic.sh\" existe déjà dans le répertoire courant"
 				exit 1
 			else
-				if [ $cpt -eq 0 ]; then
+				if [ $languageCpt -eq 0 ]; then
 					sh=1
-					cpt=1
+					languageCpt=1
 					shift
 				else
-					echo "Erreur, deux formats de fichier saisit (./$(basename $0) -h)" >&2
+					echo "Erreur, plusieurs formats de fichier saisit (./$(basename $0) -h)" >&2
 					exit 1
 				fi
 			fi
-			;;		
-
-		"-py")
-			if [ -e "$fic.py" ] ; then
-				echo "Le fichier \"$fic.py\" existe déjà dans le répertoire courant"
-				exit 1
-			else
-				if [ $cpt -eq 0 ]; then
-					py=1
-					cpt=1
-					shift
-				else
-					echo "Erreur, plusieurs formats formats de fichier saisit (./$(basename $0) -h)" >&2
-					exit 1
-				fi
-			fi
-			;;	
+			;;
 
 		"-c")
 			if [ -e "$fic.c" ] ; then
 				echo "Le fichier \"$fic.c\" existe déjà dans le répertoire courant" >&2
 				exit 1
 			else
-				if [ $cpt -eq 0 ]; then
+				if [ $languageCpt -eq 0 ]; then
 					c=1
-					cpt=1
+					languageCpt=1
 					shift
 					for i in $1 $2; do
 						if [ $i == -t ]; then
@@ -387,7 +432,8 @@ while [ $# -ne 0 ]; do
 			;;
 	esac
 done
-if [ -e $fic -a $cpt -eq 0 ]; then
+
+if [ -e $fic -a $languageCpt -eq 0 ]; then
 	echo "Le fichier ou le répertoire \"$fic\" existe déjà dans le répertoire courant"
 else
 	creation
