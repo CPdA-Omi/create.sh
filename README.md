@@ -10,7 +10,7 @@ If you want help, you can enter
 ./create.sh -h
 ```
 
-***Finally, all of the system messages are in french as the same as the guide**
+**Finally, all of the system messages are in french as the same as the guide**
 
 ---
 ### Last features

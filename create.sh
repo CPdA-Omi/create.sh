@@ -192,9 +192,10 @@ if __name__ == '__main__':
 		fic="$fic.html"
 		echo "<!-- $genMsg -->
 <!DOCTYPE html>
-<html lang="fr">
+<html lang=\"en\">
 	<head>
-		<meta charset=\"UTF-8\">
+		<meta charset=\"utf-8\">
+		<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 		<title>$(echo $fic | cut -d '.' -f 1)</title>
 	</head>
 	<body>
@@ -298,7 +299,7 @@ guide() {
   |\e[0m	  ./$(basename $0) 700 nounours -d -c -t -mkf										\e[1m\e[33m|
   |																|
   |																|
-  |						  create.sh V1.5.1 (2021->2024)  						|
+  |						  create.sh V1.5.2 (2021->2024)  						|
   |							Created by CPdA-Omi							\e[1m\e[33m|
   \e[0m\e[1m#\e[33m=============================================================================================================================\e[0m\e[1m#\e[0m"
 }
