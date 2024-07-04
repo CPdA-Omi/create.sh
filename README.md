@@ -4,15 +4,16 @@
 
 ## It's a shell script which creates files for programming in linux system
 
+</div>
+
 * Compatible at least with bash and zsh
 * All of the script works with arguments
 
-</div>
 <br/>
 
 If you want help, you can enter
 ```bash
-./create.sh -h
+./create.sh -H
 ```
 
 ---
