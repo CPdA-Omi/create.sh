@@ -2,10 +2,16 @@
 
 # Author : CPdA-Omi
 # Creation Date : december 6 2021
-# Last update : 03/12/2024 (MM/DD/YYYY)
+# Last update : 06/02/2024 (MM/DD/YYYY)
 
 author="CPdA-Omi"
 genMsg="File created by create.sh ($author)"
+helpMsg="(./$(basename $0) -H)"
+
+multipleFileFormats() {
+	echo "Error, multiple file formats entered $helpMsg." >&2
+	exit 1
+}
 
 ifCreationError() {
 	if [ $? -ne 0 ]; then
@@ -236,7 +242,7 @@ guide() {
 	echo -e "  \e[1m#\e[33m======================================================\e[0m\e[1m GUIDE $(basename $0 | tr a-z A-Z) \e[33m======================================================\e[0m\e[1m#\e[0m
   \e[1m\e[33m|																|
   |																|
-  |\e[0m	  The file \"$(basename $0)\" is a program which fastly create with a lot of options described right down			\e[1m\e[33m|
+  |\e[0m	  The file \"$(basename $0)\" is a script which fastly create with a lot of options described right down			\e[1m\e[33m|
   |																|
   |																|
   |\e[0m	  \e[4m\e[33mWorking :\e[0m														\e[1m\e[33m|
@@ -249,57 +255,57 @@ guide() {
   |\e[0m	  Then, the following value will be the file name that will be created. \e[1mThis argument is \e[4mnecessary\e[0m\e[1m for the good 	\e[1m\e[33m|
   |\e[0m	  behaviour of the script.												\e[1m\e[33m|
   |																|
-  |\e[0m	  All the following arguments can be used in any order (except \"-mkf\" and \"-t\") and those are their functions.		\e[1m\e[33m|
+  |\e[0m	  All the following arguments can be used in any order (except \"-M\" and \"-T\") and those are their functions.		\e[1m\e[33m|
   |																|
   |																|
   |\e[0m	  \e[4m\e[33mOptions :\e[0m														\e[1m\e[33m|
   |																|
   |\e[0m	  By default, a file does not have a format but three are set in this script :						\e[1m\e[33m|
   |																|
-  |\e[0m		  \e[94m-html\e[0m  : create the file in the html format (with all the main tags) ;					\e[1m\e[33m|
-  |\e[0m		  \e[93m-py\e[0m    : create the file in the python format (with a python main) ;						\e[1m\e[33m|
-  |\e[0m		  \e[96m-sh\e[0m    : create the file in the bash format (with the shebang) ;						\e[1m\e[33m|
-  |\e[0m		  \e[31m-c\e[0m     : create alle the files necessary to run a c program :							\e[1m\e[33m|
-  |\e[0m				  a .c file, a .h file and a test.c file with all necessary					\e[1m\e[33m|
-  |\e[0m				  imports for a good use already set in the files.						\e[1m\e[33m|
+  |\e[0m		  \e[94m-HT (--html)\e[0m    : create the file in the html format (with all the main tags) ;				\e[1m\e[33m|
+  |\e[0m		  \e[93m-PY (--python)\e[0m  : create the file in the python format (with a python main) ;					\e[1m\e[33m|
+  |\e[0m		  \e[96m-SH (--shell)\e[0m   : create the file in the bash format (with the shebang) ;					\e[1m\e[33m|
+  |\e[0m		  \e[31m-C (--clang)\e[0m    : create all the files necessary to run a c program :						\e[1m\e[33m|
+  |\e[0m				       a .c file, a .h file and a test.c file with all necessary				\e[1m\e[33m|
+  |\e[0m				       imports for a good use already set in the files.						\e[1m\e[33m|
   |																|
-  |\e[0m	  \e[31m-mkf (makefile)\e[0m : sub-option of \"-c\" creating a makefile file for to compile using \e[3mmake\e[0m				\e[1m\e[33m|
-  |\e[0m			This sub-option \e[1mcan only be entered after \"-c\" or \"-t\"\e[0m.							\e[1m\e[33m|
+  |\e[0m	  \e[31m-M (--makefile)\e[0m : sub-option of \"-C\" creating a makefile file for to compile using \e[3mmake\e[0m				\e[1m\e[33m|
+  |\e[0m			    This sub-option \e[1mcan only be entered after \"-C\" or \"-T\"\e[0m.						\e[1m\e[33m|
   |																|
-  |\e[0m	  \e[31m-t (tree)\e[0m	  : sub-option of \"-c\" creating an entire tree structure within the files :				\e[1m\e[33m|
+  |\e[0m	  \e[31m-T (--tree)\e[0m  : sub-option of \"-C\" creating an entire tree structure within the files :				\e[1m\e[33m|
   |\e[0m			  - bin,												\e[1m\e[33m|
   |\e[0m			  - obj (for the .o files created using \e[3mmake\e[0m),								\e[1m\e[33m|
   |\e[0m			  - src (where the C files will be stored).								\e[1m\e[33m|
-  |\e[0m			This sub-option \e[1mcan only be entered after \"-c\" or \"-mkf\"\e[0m.						\e[1m\e[33m|
-  |\e[0m			\e[4mI highly recommand you to use this sub-option with the \"-o\" option.\e[0m					\e[1m\e[33m|
+  |\e[0m			 This sub-option \e[1mcan only be entered after \"-C\" or \"-M\"\e[0m.						\e[1m\e[33m|
+  |\e[0m			 \e[4mI highly recommand you to use this sub-option with the \"-D\" option.\e[0m					\e[1m\e[33m|
   |																|
-  |\e[0m	  \e[32m-d (directory)\e[0m  : option creating a directory where the files will be created.					\e[1m\e[33m|
-  |\e[0m	  		 If this option is not entered, all the files will be created in the actual directory (pwd).		\e[1m\e[33m|
-  |\e[0m			  Example : \e[3m./$(basename $0) bubble -c -d\e[0m will create \"bubble.h\", \"bubble.c\" and \"testbubble.c\"		\e[1m\e[33m|
-  |\e[0m			  in the \e[3mbubble\e[0m directory.										\e[1m\e[33m|
+  |\e[0m	  \e[32m-D (--directory)\e[0m : option creating a directory where the files will be created.					\e[1m\e[33m|
+  |\e[0m	  		     If this option is not entered, all the files will be created in the actual directory (pwd).	\e[1m\e[33m|
+  |\e[0m			       Example : \e[3m./$(basename $0) bubble -C\e[0m will create \"bubble.h\", \"bubble.c\" and \"testbubble.c\"		\e[1m\e[33m|
+  |\e[0m			       in the \e[3mbubble\e[0m directory.										\e[1m\e[33m|
   |																|
-  |\e[0m	  \e[32m-o (open)\e[0m   : option that opens all the created files (except the makefile if created).				\e[1m\e[33m|
+  |\e[0m	  \e[32m-O (--open)\e[0m : option that opens all the created files (except the makefile if created).				\e[1m\e[33m|
   |\e[0m		 	By default, those files are opened via \e[3mSublime Text\e[0m but you can change that by enter a command		\e[1m\e[33m|
-  |\e[0m		 	that opens a text editor right after this option (or change the lines 140 and 225 of the script).	\e[1m\e[33m|
-  |\e[0m			  Example : \e[3m./$(basename $0) rabbit -sh -o vi\e[0m will open the \"rabbit.sh\" using \e[3mvi\e[0m.				\e[1m\e[33m|
+  |\e[0m		 	that opens a text editor right after this option (or change the lines 146 and 232 of the script).	\e[1m\e[33m|
+  |\e[0m			  Example : \e[3m./$(basename $0) rabbit -SH -O vi\e[0m will open the \"rabbit.sh\" using \e[3mvi\e[0m.				\e[1m\e[33m|
   |																|
-  |\e[0m	  \e[32m-h (help)\e[0m   : option that opens that guide if used as first argument (--help also works).				\e[1m\e[33m|
-  |\e[0m		 	In memory of the previous script versions, the \"-guide\" option still works.				\e[1m\e[33m|
+  |\e[0m	  \e[32m-H (--help)\e[0m : option that opens that guide if used as first argument.							\e[1m\e[33m|
+  |\e[0m		 	In memory of the first script versions, the \"-guide\" option still works.				\e[1m\e[33m|
   |\e[0m			If this guide is open, no other action will be effective.						\e[1m\e[33m|
   |																|
-  |\e[0m	  Another option that create C++ files might comes later...								\e[1m\e[33m|
+  |\e[0m	  Another option that create C++ and JS files (and React coponents) might comes later...				\e[1m\e[33m|
   |																|
   |																|
   |\e[0m	  \e[4m\e[33mExemples :\e[0m														\e[1m\e[33m|
   |																|
-  |\e[0m	  ./$(basename $0) chat -d -html												\e[1m\e[33m|
-  |\e[0m	  ./$(basename $0) toto -c -mkf -d												\e[1m\e[33m|
-  |\e[0m	  ./$(basename $0) 744 titi -o -py												\e[1m\e[33m|
-  |\e[0m	  ./$(basename $0) lapin -o gedit -d -sh											\e[1m\e[33m|
-  |\e[0m	  ./$(basename $0) 700 nounours -d -c -t -mkf										\e[1m\e[33m|
+  |\e[0m	  ./$(basename $0) chat -D --html												\e[1m\e[33m|
+  |\e[0m	  ./$(basename $0) toto -C -M --directory											\e[1m\e[33m|
+  |\e[0m	  ./$(basename $0) 744 titi --open -PY											\e[1m\e[33m|
+  |\e[0m	  ./$(basename $0) lapin -O gedit -D -SH											\e[1m\e[33m|
+  |\e[0m	  ./$(basename $0) 700 nounours -D --clang --tree --makefile									\e[1m\e[33m|
   |																|
   |																|
-  |						  create.sh V1.5.2 (2021->2024)  						|
+  |						  create.sh V1.6.0 (2021->2024)  						|
   |							Created by CPdA-Omi							\e[1m\e[33m|
   \e[0m\e[1m#\e[33m=============================================================================================================================\e[0m\e[1m#\e[0m"
 }
@@ -307,13 +313,13 @@ guide() {
 #================================================================================Main==================================================================================#
 
 if [ $# -eq 0 ]; then
-	echo "Error, enter a file name (./$(basename $0) -h)." >&2
+	echo "Error, enter a file name $helpMsg." >&2
 	exit 1
 fi
 
 if echo $1 | egrep -q "[0-7]{3}" ; then
 	chmod=$1; shift
-elif [ "$1" = "-guide" -o "$1" = "-h" -o "$1" = "--help" ]; then
+elif [ $1 = -guide -o $1 = -H -o $1 = --help ]; then
 	guide
 	exit 0
 else
@@ -325,7 +331,7 @@ languageCpt=0; way="."; fic=$1; shift
 
 while [ $# -ne 0 ]; do
 	case $1 in
-		"-html")
+		"-HT"|"-html")
 			if [ -e "$fic.html" ]; then
 				echo "The file \"$fic.html\" already exists in this directory."
 				exit 1
@@ -335,13 +341,12 @@ while [ $# -ne 0 ]; do
 					languageCpt=1
 					shift
 				else
-					echo "Error, multiple file formats entered (./$(basename $0) -h)." >&2
-					exit 1
+					multipleFileFormats
 				fi
 			fi
 			;;
 
-		"-py")
+		"-PY"|"--python")
 			if [ -e "$fic.py" ]; then
 				echo "The file \"$fic.py\" already exists in this directory."
 				exit 1
@@ -351,13 +356,12 @@ while [ $# -ne 0 ]; do
 					languageCpt=1
 					shift
 				else
-					echo "Error, multiple file formats entered (./$(basename $0) -h)." >&2
-					exit 1
+					multipleFileFormats
 				fi
 			fi
 			;;
 		
-		"-sh")
+		"-SH"|"--shell")
 			if [ -e "$fic.sh" ]; then
 				echo "The file \"$fic.sh\" already exists in this directory."
 				exit 1
@@ -367,13 +371,12 @@ while [ $# -ne 0 ]; do
 					languageCpt=1
 					shift
 				else
-					echo "Error, multiple file formats entered (./$(basename $0) -h)." >&2
-					exit 1
+					multipleFileFormats
 				fi
 			fi
 			;;
 
-		"-c")
+		"-C"|"--clang")
 			if [ -e "$fic.c" ] ; then
 				echo "The file \"$fic.c\" already exists in this directory." >&2
 				exit 1
@@ -383,22 +386,21 @@ while [ $# -ne 0 ]; do
 					languageCpt=1
 					shift
 					for i in $1 $2; do
-						if [ $i == -t ]; then
+						if [ $i = -T -o $i = --tree ]; then
 							tree=1
 							shift
-						elif [ $i == -mkf ]; then
+						elif [ $i = -M -o $i = --makefile ]; then
 							mkf=1
 							shift
 						fi
 					done
 				else
-					echo "Error, multiple file formats entered (./$(basename $0) -h)." >&2
-					exit 1
+					multipleFileFormats
 				fi
 			fi
 			;;
 
-		"-o")
+		"-O"|"--open")
 			open=1
 			shift
 			if [ ! -z $1 ]; then 
@@ -409,19 +411,19 @@ while [ $# -ne 0 ]; do
 			fi
 			;;
 
-		"-d")
+		"-D"|"--directory")
 			file=1; shift
 			;;
 
 		*)
-			echo "Error: enter e valid option (./$(basename $0) -h)." >&2
+			echo "Error: enter a valid option $helpMsg." >&2
 			exit 1
 			;;
 	esac
 done
 
 if [ -e $fic -a $languageCpt -eq 0 ]; then
-	echo "The file of the directory \"$fic\" already exists in this directory."
+	echo "The file or the directory \"$fic\" already exists in this directory."
 else
 	creation
 fi
