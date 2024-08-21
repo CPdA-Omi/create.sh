@@ -19,6 +19,7 @@ If you want help, you can enter
 ---
 ### Last features
 
+* use of the `less` command for the guide to mimic the *man* behaviour
 * options commands changed to respect a verbose conventions: all options previously existing in the script are now uppercased and have a verbose version
 
 ### Upcoming features
