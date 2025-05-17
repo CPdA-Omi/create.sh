@@ -2,7 +2,7 @@
 
 # Author : CPdA-Omi
 # Creation Date : december 6 2021
-# Last update : 08/21/2024 (MM/DD/YYYY)
+# Last update : 05/17/2024 (MM/DD/YYYY)
 
 author="CPdA-Omi"
 genMsg="File created by create.sh ($author)"
@@ -244,28 +244,28 @@ if __name__ == '__main__':
 }
 
 guide() {
-	local borderCharacter="\e[1m\e[33m|\e[0m"
+	local borderCharacter="\e[33;1m|\e[0m"
 	echo -e "
-  \e[1m#\e[33m======================================================\e[0m\e[1m GUIDE $(basename $0 | tr a-z A-Z) \e[33m======================================================\e[0m\e[1m#\e[0m
+  \e[1m#\e[33m======================================================\e[0;1m GUIDE $(basename $0 | tr a-z A-Z) \e[33m======================================================\e[0;1m#\e[0m
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}	  The file \"$(basename $0)\" is a script which fastly create with a lot of options described right down			${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}																${borderCharacter}
-  ${borderCharacter}	  \e[4m\e[33mWorking :\e[0m														${borderCharacter}
+  ${borderCharacter}	  \e[33;4mWorking :\e[0m														${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}	  All is working with arguments in order to have the fastest execusion but the first can have multiple utilities :	${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}	  Rights can be entered directly as the \e[4mfirst argument\e[0m (ex: 642). This field is \e[1moptional\e[0m.				${borderCharacter}
   ${borderCharacter}	  If rights are not entered, the rights \"755\" will be the default ones.							${borderCharacter}
   ${borderCharacter}																${borderCharacter}
-  ${borderCharacter}	  Then, the following value will be the file name that will be created. \e[1mThis argument is \e[4mnecessary\e[0m\e[1m for the good 	${borderCharacter}
+  ${borderCharacter}	  Then, the following value will be the file name that will be created. \e[1mThis argument is \e[4mnecessary\e[0;1m for the good 	${borderCharacter}
   ${borderCharacter}	  behaviour of the script.												${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}	  All the following arguments can be used in any order (except \"-M\" and \"-T\") and those are their functions.		${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}																${borderCharacter}
-  ${borderCharacter}	  \e[4m\e[33mOptions :\e[0m														${borderCharacter}
+  ${borderCharacter}	  \e[33;4mOptions :\e[0m														${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}	  By default, a file does not have a format but three are set in this script :						${borderCharacter}
   ${borderCharacter}																${borderCharacter}
@@ -303,7 +303,7 @@ guide() {
   ${borderCharacter}	  Another option that create C++ and JS files (and React coponents) might comes later...				${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}																${borderCharacter}
-  ${borderCharacter}	  \e[4m\e[33mExemples :\e[0m														${borderCharacter}
+  ${borderCharacter}	  \e[33;4mExemples :\e[0m														${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}	  ./$(basename $0) chat -D --html												${borderCharacter}
   ${borderCharacter}	  ./$(basename $0) toto -C -M --directory											${borderCharacter}
@@ -312,9 +312,9 @@ guide() {
   ${borderCharacter}	  ./$(basename $0) 700 nounours -D --clang --tree --makefile									${borderCharacter}
   ${borderCharacter}																${borderCharacter}
   ${borderCharacter}																${borderCharacter}
-  ${borderCharacter}						  create.sh V1.6.1 (2021->2024)  						${borderCharacter}
+  ${borderCharacter}						  create.sh V1.6.2 (2021->2024)  						${borderCharacter}
   ${borderCharacter}							Created by CPdA-Omi							${borderCharacter}
-  \e[0m\e[1m#\e[33m=============================================================================================================================\e[0m\e[1m#\e[0m" | less
+  \e[0;1m#\e[33m=============================================================================================================================\e[0;1m#\e[0m" | less
 }
 
 #================================================================================Main==================================================================================#
